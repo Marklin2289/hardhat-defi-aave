@@ -1,4 +1,4 @@
-const { getWeth } = require("./getWeth")
+const { getWeth } = require("../scripts/getWeth")
 
 async function main() {
     // the protocol treats everything as an ERC20 token
