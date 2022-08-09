@@ -52,8 +52,9 @@ module.exports = {
                 version: "0.6.12",
             },
             {
-                version: "0.4.19",
+                version: "0.4.19", // added version for IWeth.sol
             },
+            { version: "0.6.12" },
         ],
     },
     etherscan: {
