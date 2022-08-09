@@ -12,13 +12,26 @@ async function main() {
     const lendingPool = await getLendingPool(deployer)
     console.log(`LendingPool address : ${lendingPool.address}`)
 
-    // deposit!
+    // Deposit!
     const wethTokenAddress = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
     // approve
     await approveErc20(wethTokenAddress, lendingPool.address, AMOUNT, deployer)
     console.log("Depositing WETH...")
     await lendingPool.deposit(wethTokenAddress, AMOUNT, deployer, 0)
     console.log("Deposited!")
+    let { availableBorrowsETH, totalDebtETH } = await getBorrowUserData(lendingPool, deployer)
+
+    // Borrow Time on AAVE
+    // how much we have  borrowed,  how much we have in collateral, how much we can borrow
+}
+
+async function getBorrowUserData(lendingPool, account) {
+    const { totalCollateralETH, totalDebtETH, availableBorrowsETH } =
+        await lendingPool.getUserAccountData(account)
+    console.log(`Your ETH deposited        : ${totalCollateralETH}`)
+    console.log(`Your ETH borrowed         : ${totalDebtETH}`)
+    console.log(`Your ETH borrowing Power  : ${availableBorrowsETH}`)
+    return { availableBorrowsETH, totalDebtETH }
 }
 
 async function getLendingPool(account) {
