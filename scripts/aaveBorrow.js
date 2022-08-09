@@ -1,5 +1,4 @@
 const { getNamedAccounts } = require("hardhat")
-const { etherscan } = require("../hardhat.config")
 const { getWeth } = require("./getWeth")
 
 async function main() {
@@ -10,16 +9,19 @@ async function main() {
 
     // Lending Pool Address Provider : 0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5
     // Lending Pool : ^
+    const lendingPool = await getLendingPool(deployer)
+    console.log(`LendingPool address : ${lendingPool.address}`)
 }
 
 async function getLendingPool(account) {
-    const lendingPoolAddressesProvider = await etherscan.getContractAt(
+    const lendingPoolAddressesProvider = await ethers.getContractAt(
         "ILendingPoolAddressesProvider",
         "0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5",
         account
     )
     const lendingPoolAddress = await lendingPoolAddressesProvider.getLendingPool()
-    const lendingPool = await etherscan.getContractAt("")
+    const lendingPool = await ethers.getContractAt("ILendingPool", lendingPoolAddress, account)
+    return lendingPool
 }
 
 main()
